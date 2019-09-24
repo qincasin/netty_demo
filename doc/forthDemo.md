@@ -31,35 +31,51 @@ public class MyChatServer {
 ```
 ### initializer
 ```java
-public class MyServer {
-    public static void main(String[] args) throws Exception {
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
-
-        try {
-            ServerBootstrap bootstrap = new ServerBootstrap();
-            //childHandler
-            bootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
-                    .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new MyServerInitializer());
-            ChannelFuture channelFuture = bootstrap.bind(8899).sync();
-            channelFuture.channel().closeFuture().sync();
-        } finally {
-            bossGroup.shutdownGracefully();
-            workerGroup.shutdownGracefully();
-        }
+public class MyServerInitializer extends ChannelInitializer<SocketChannel> {
+    @Override
+    protected void initChannel(SocketChannel ch) throws Exception {
+        ChannelPipeline pipeline = ch.pipeline();
+        //在五秒钟没有执行读，7秒钟没有执行写，在十秒钟空闲 都会触发这个操作
+        /**
+         * 处理空闲状态事件的处理器
+         * IdleStateHandler三个参数分别对应：readerIdleTime，writerIdleTime，allIdleTime
+         * readerIdleTime：表示多长时间没有读，就发送一个心跳包检验是否连接。
+         * writerIdleTime：表示多长时间没有写，就发送一个心跳包检验是否连接。
+         * allIdleTime：表示什么都不做，过多长时间，就发送一个心跳包检验是否连接。
+         */
+        pipeline.addLast(new IdleStateHandler(5,7,10, TimeUnit.SECONDS));
+        pipeline.addLast(new MyServerHandler());
     }
 }
 ```
 ### handler
 ```java
+package com.qjx.netty.fourthexample;
+
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.handler.timeout.IdleStateEvent;
+
 public class MyServerHandler extends ChannelInboundHandlerAdapter {
+    /**
+     * 触发了某个事件之后就会被调用
+     * @param ctx
+     * @param evt
+     * @throws Exception
+     */
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
 
         String eventType = null;
-
+        /**
+         * 如果当前事件是IdleStateEvent类型，表示他是个空闲状态
+         */
         if (evt instanceof IdleStateEvent) {
+            /**
+             * 判断event是什么状态，event.state()返回的是IdleState类型，它是个枚举类型，有三个属性
+             * READER_IDLE，读空闲。WRITER_IDLE写空闲，ALL_IDLE什么都不做空闲
+             *
+             */
             IdleStateEvent event = (IdleStateEvent) evt;
             switch (event.state()) {
                 case READER_IDLE:
@@ -73,9 +89,13 @@ public class MyServerHandler extends ChannelInboundHandlerAdapter {
                     break;
 
             }
-
+            /**
+             * 注意了，这个读空闲和写空闲，指的是当前实现这个Handler的类，即Server
+             * 如果Server没有接受到客户端的数据，即为读空闲（因为没有读取数据）
+             * 如果Server没有发送消息，即为写空闲
+             */
             System.out.println(ctx.channel().remoteAddress() + "超时事件： " + eventType);
-
+            //如果不关闭，会一直循环判断
             ctx.channel().closeFuture();
         }
     }
