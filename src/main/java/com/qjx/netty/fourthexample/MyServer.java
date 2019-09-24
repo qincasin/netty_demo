@@ -25,8 +25,6 @@ public class MyServer {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
-
-
     }
 }
 
