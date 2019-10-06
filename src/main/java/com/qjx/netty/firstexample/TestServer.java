@@ -22,7 +22,7 @@ public class TestServer {
             ChannelFuture channelFuture = serverBootstrap.bind(8899).sync();
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e){
-            //todo
+
         } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
