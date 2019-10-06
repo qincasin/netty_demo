@@ -5,3 +5,4 @@
 ## [demo03- 简单聊天通知上线下线](/doc/thirdDemo.md)
 ## [demo04- 测试心跳机制](/doc/forthDemo.md)
 ## [thrift 介绍](/doc/thrift.md)
+## [ io 回顾 以及装饰模式理解](/doc/io.md)
