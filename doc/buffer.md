@@ -2,6 +2,8 @@
 ## 分片 slice
 >分割 分片 Slice sliceBuffer 和原有buffer共享相同的底层数组
 
+>结合 go 语言的分片理解下 .....
+
 ```java
   /**
      * Creates a new byte buffer whose content is a shared subsequence of
