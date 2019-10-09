@@ -297,6 +297,11 @@ public class NioTest4 {
 
 * 相对方法
 > limit值与position值会在操作时被考虑到
+    > 读取/写入元素，读取/transfer多少个元素，则相对的position元素也会发生transfer个位置变化
+    > 转换元素大小超出了limit大小则get操作抛出BufferUnderflowException(运行时异常)，put操作会抛出BufferOverflowException ，并且没有数据传输出去
 
 * 绝对方法
-> 完全忽略到limit值与position值
+> 忽略到limit值与position值
+> 直接给定的index进行put or get相应的操作，如果put or get 操作中的这个index 超出了limit的大小 会超出IndexOutOfBoundsException
+
+
