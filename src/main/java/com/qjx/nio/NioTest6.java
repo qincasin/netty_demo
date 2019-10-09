@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 
 /**
  * 分割 分片 Slice sliceBuffer 和原有buffer共享相同的底层数组
+ * 结合 go 语言的分片理解下 .....
  */
 public class NioTest6 {
     public static void main(String[] args) {
