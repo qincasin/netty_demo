@@ -7,3 +7,5 @@
 ## [thrift 介绍](/doc/thrift.md)
 ## [ io 回顾 以及装饰模式理解](/doc/io.md)
 ## [ nio 核心个概念介绍 ](/doc/nio.md)
+## [ Buffer 以及 DirectByteBuffer介绍 ](/doc/buffer.md)
+
