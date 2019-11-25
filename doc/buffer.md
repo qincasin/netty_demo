@@ -89,3 +89,5 @@ public class NioTest7 {
 
 - HeapBuffer (间接) A ->CPU  , CPU-->B
 - DirectBuffer(直接) A ->B  ----**零拷贝** 
+
+## 内存映射文件
