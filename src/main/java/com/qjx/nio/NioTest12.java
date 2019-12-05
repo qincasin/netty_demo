@@ -15,9 +15,6 @@ public class NioTest12 {
         Selector selector = Selector.open();
 
 
-
-
-
         System.out.println(SelectorProvider.provider().getClass());
 //        System.out.println(sun.nio.ch.DefaultSelectorProvider.create().getClass());
 
