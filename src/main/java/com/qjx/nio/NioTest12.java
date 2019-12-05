@@ -1,6 +1,7 @@
 package com.qjx.nio;
 
 import java.nio.channels.Selector;
+import java.nio.channels.spi.SelectorProvider;
 
 /**
  * selector
@@ -15,7 +16,8 @@ public class NioTest12 {
 
 
 
-//        System.out.println(SelectorProvider.provider().getClass());
+
+        System.out.println(SelectorProvider.provider().getClass());
 //        System.out.println(sun.nio.ch.DefaultSelectorProvider.create().getClass());
 
     }
