@@ -11,6 +11,7 @@ public class TestClientHandler extends SimpleChannelInboundHandler<MyDataInfo.My
 
     }
 
+    //连接刚激活
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
 

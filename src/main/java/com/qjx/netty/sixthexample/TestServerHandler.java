@@ -8,6 +8,7 @@ public class TestServerHandler extends SimpleChannelInboundHandler<MyDataInfo.My
     protected void channelRead0(ChannelHandlerContext ctx, MyDataInfo.MyMessage msg) throws Exception {
 
         MyDataInfo.MyMessage.DataType type = msg.getDateType();
+        //多协议 的处理方式 第一次发送 person协议 ，第二次发送 dog协议
 
         if (type == MyDataInfo.MyMessage.DataType.PersonType) {
             MyDataInfo.Person person = msg.getPerson();
