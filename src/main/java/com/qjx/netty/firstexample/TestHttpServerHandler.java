@@ -5,6 +5,7 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
+import io.netty.util.AttributeKey;
 import io.netty.util.CharsetUtil;
 
 import java.net.URI;
@@ -25,6 +26,7 @@ import java.net.URI;
  *
  */
 public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
+    public static final AttributeKey<String> key = AttributeKey.valueOf("123key");
     /**4
      * 读取客户端发过来的请求，并且向客户端返回相应
      *
@@ -80,12 +82,19 @@ public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObjec
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
         System.out.println("channel registered");
+        String s = ctx.channel().attr(key).get();
+        if (s==null){
+            String deviceId = ctx.channel().attr(key).setIfAbsent("deviceId");
+        }
         super.channelRegistered(ctx);
     }
     //1
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         System.out.println("handler added");
+//        if (ctx.channel().isActive() && ctx.channel().isRegistered()){
+//            AttributeKey.
+//        }
         super.handlerAdded(ctx);
     }
 
@@ -101,5 +110,11 @@ public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObjec
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
         System.out.println("channel unregistered");
         super.channelUnregistered(ctx);
+        String s = ctx.channel().attr(key).get();
+        if (s!=null){
+            //todo db 操作
+
+        }
+
     }
 }
