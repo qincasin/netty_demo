@@ -42,11 +42,11 @@ dependencies {
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:3.9.0"
+        artifact = "com.google.protobuf:protoc:3.21.0"
     }
     plugins {
         grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java:1.24.0'
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.47.0'
         }
     }
 
